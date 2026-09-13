@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nome do Negócio | Peça o seu Orçamento Online</title>
-    <meta name="description" content="Escolha os serviços, veja o preço na hora e marque um horário — tudo online.">
+    <title>Aro Alto | Academia de Basquetebol</title>
+    <meta name="description" content="Aulas de basquetebol para todas as idades — escolha o programa, veja o preço na hora e marque uma aula experimental grátis.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,17 +14,20 @@
          ============================================ -->
     <header id="cabecalho">
         <div class="container header-content">
-            <a href="#topo" class="logo">Nome do Negócio</a>
+            <a href="#topo" class="logo">
+                <svg class="logo-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg>
+                ARO ALTO
+            </a>
 
             <nav id="navPrincipal">
-                <a href="#catalogo">Serviços</a>
-                <a href="#orcamento">Orçamento</a>
-                <a href="#marcacoes">Marcar Horário</a>
+                <a href="#catalogo">Programas</a>
+                <a href="#orcamento">Mensalidade</a>
+                <a href="#marcacoes">Aula Experimental</a>
                 <a href="#contacto">Contacto</a>
             </nav>
 
             <div class="header-acoes">
-                <a href="#catalogo" class="btn btn-primario">Pedir Orçamento</a>
+                <a href="#catalogo" class="btn btn-primario">Ver Programas</a>
                 <button id="btnMenu" class="btn-menu" aria-label="Abrir menu" aria-expanded="false">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
@@ -36,24 +39,65 @@
          HERO
          ============================================ -->
     <section id="topo" class="hero">
+        <div class="hero-fundo" aria-hidden="true">
+            <svg class="hero-linhas" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+                <circle cx="400" cy="250" r="120" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="400" cy="250" r="4" fill="currentColor"/>
+                <line x1="0" y1="250" x2="800" y2="250" stroke="currentColor" stroke-width="2"/>
+                <path d="M0 90 Q 180 250 0 410" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M800 90 Q 620 250 800 410" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <svg class="hero-bola" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/>
+            </svg>
+        </div>
+
         <div class="container hero-content">
-            <p class="etiqueta">Peça já o seu orçamento</p>
-            <h1>Escolha os serviços, veja o preço na hora e marque um horário</h1>
-            <p class="hero-subtitulo">Sem telefonemas nem esperas — monte o seu pedido abaixo em menos de dois minutos.</p>
+            <p class="etiqueta etiqueta-clara">Academia de Basquetebol</p>
+            <h1>Treina como um <span class="destaque-texto">profissional</span>, desde o primeiro dia</h1>
+            <p class="hero-subtitulo">Programas para todas as idades e níveis — dos mini-basket à competição. Escolhe o teu programa e marca uma aula experimental grátis.</p>
             <div class="hero-cta">
-                <a href="#catalogo" class="btn btn-primario btn-grande">Começar Agora</a>
-                <a href="#marcacoes" class="btn btn-secundario btn-grande">Ir direto à Marcação</a>
+                <a href="#marcacoes" class="btn btn-primario btn-grande">Marcar Aula Experimental</a>
+                <a href="#catalogo" class="btn btn-secundario btn-grande">Ver Programas</a>
             </div>
         </div>
     </section>
 
     <!-- ============================================
-         CATÁLOGO DE SERVIÇOS
+         INDICADOR DE PROGRESSO
+         ============================================ -->
+    <nav class="stepper" id="stepper" aria-label="Progresso da inscrição">
+        <div class="container stepper-content">
+            <a href="#catalogo" class="step" data-step="1">
+                <span class="step-circulo">1</span>
+                <span class="step-label">Programas</span>
+            </a>
+            <span class="step-linha" data-linha="1"></span>
+            <a href="#orcamento" class="step" data-step="2">
+                <span class="step-circulo">2</span>
+                <span class="step-label">Mensalidade</span>
+            </a>
+            <span class="step-linha" data-linha="2"></span>
+            <a href="#marcacoes" class="step" data-step="3">
+                <span class="step-circulo">3</span>
+                <span class="step-label">Aula Experimental</span>
+            </a>
+            <span class="step-linha" data-linha="3"></span>
+            <a href="#contacto" class="step" data-step="4">
+                <span class="step-circulo">4</span>
+                <span class="step-label">Inscrever</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         CATÁLOGO DE PROGRAMAS
          ============================================ -->
     <section id="catalogo" class="catalogo">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 1</p>
-            <h2 class="titulo-centro">Escolha os serviços que pretende</h2>
+            <h2 class="titulo-centro">Escolhe o teu programa</h2>
 
             <div class="filtros" id="filtrosCategoria">
                 <!-- Gerado pelo JavaScript -->
@@ -66,27 +110,27 @@
     </section>
 
     <!-- ============================================
-         ORÇAMENTO (CALCULADORA)
+         ORÇAMENTO (SIMULADOR DE MENSALIDADE)
          ============================================ -->
     <section id="orcamento" class="orcamento">
         <div class="container orcamento-content">
             <div class="orcamento-texto">
                 <p class="etiqueta">Passo 2</p>
-                <h2>O seu orçamento em tempo real</h2>
-                <p>Os serviços selecionados no catálogo aparecem aqui, com o valor total atualizado automaticamente.</p>
+                <h2>Simula a tua mensalidade</h2>
+                <p>Os programas escolhidos no catálogo aparecem aqui, com o valor mensal total atualizado automaticamente.</p>
             </div>
 
             <div class="orcamento-caixa">
-                <h3>Resumo do pedido</h3>
+                <h3>Resumo da inscrição</h3>
                 <ul id="listaOrcamento" class="orcamento-lista">
-                    <li class="orcamento-vazio" id="orcamentoVazio">Ainda não selecionou nenhum serviço.</li>
+                    <li class="orcamento-vazio" id="orcamentoVazio">Ainda não escolheste nenhum programa.</li>
                 </ul>
                 <div class="orcamento-total">
-                    <span>Total estimado</span>
+                    <span>Mensalidade estimada</span>
                     <span id="orcamentoTotal">0 €</span>
                 </div>
-                <a href="#marcacoes" class="btn btn-primario btn-full">Marcar Horário →</a>
-                <p class="orcamento-aviso">Valor estimado — pode variar após confirmação.</p>
+                <a href="#marcacoes" class="btn btn-primario btn-full">Marcar Aula Experimental →</a>
+                <p class="orcamento-aviso">Valor estimado — pode variar após confirmação com a academia.</p>
             </div>
         </div>
     </section>
@@ -97,14 +141,14 @@
     <section id="marcacoes" class="marcacoes">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 3</p>
-            <h2 class="titulo-centro">Escolha data e hora</h2>
+            <h2 class="titulo-centro">Marca a tua aula experimental grátis</h2>
 
             <div class="marcacoes-caixa">
                 <label for="dataMarcacao">Data pretendida</label>
                 <input type="date" id="dataMarcacao">
 
                 <div id="blocoHorarios" class="bloco-horarios" hidden>
-                    <p class="horarios-label">Horários disponíveis</p>
+                    <p class="horarios-label">Horários de treino disponíveis</p>
                     <div class="horarios-grid" id="horariosGrid">
                         <!-- Gerado pelo JavaScript -->
                     </div>
@@ -116,25 +160,24 @@
     </section>
 
     <!-- ============================================
-         CONTACTO / ENVIO DO PEDIDO
+         CONTACTO / INSCRIÇÃO
          ============================================ -->
     <section id="contacto" class="contacto">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 4</p>
-            <h2 class="titulo-centro">Envie o seu pedido</h2>
-            <p class="contacto-subtitulo">Confirme os seus dados — o pedido inclui automaticamente os serviços e o horário escolhidos acima.</p>
+            <h2 class="titulo-centro">Finaliza a tua inscrição</h2>
+            <p class="contacto-subtitulo">Confirma os teus dados — o pedido inclui automaticamente os programas e o horário escolhidos acima.</p>
 
             <form class="contacto-form" id="formContacto">
                 <!-- TROCA "XXXXXXXX" pelo teu ID do Formspree (grátis em formspree.io) -->
-                <!-- <form ... action="https://formspree.io/f/XXXXXXXX" method="POST"> também funciona sem JS -->
 
                 <div class="form-grid">
                     <div>
-                        <label for="nome">Nome</label>
+                        <label for="nome">Nome do atleta</label>
                         <input type="text" id="nome" name="nome" required>
                     </div>
                     <div>
-                        <label for="email">Email</label>
+                        <label for="email">Email do encarregado de educação</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                 </div>
@@ -148,12 +191,12 @@
                 </div>
 
                 <div class="resumo-final" id="resumoFinal">
-                    <p><strong>Resumo do pedido</strong></p>
-                    <p id="resumoServicos">Nenhum serviço selecionado ainda.</p>
+                    <p><strong>Resumo da inscrição</strong></p>
+                    <p id="resumoServicos">Nenhum programa selecionado ainda.</p>
                     <p id="resumoHorario">Nenhum horário selecionado ainda.</p>
                 </div>
 
-                <button type="submit" class="btn btn-primario btn-grande" id="btnEnviar">Enviar Pedido</button>
+                <button type="submit" class="btn btn-primario btn-grande" id="btnEnviar">Enviar Inscrição</button>
                 <p class="form-nota" id="formNota"></p>
             </form>
         </div>
@@ -164,11 +207,11 @@
          ============================================ -->
     <footer class="rodape">
         <div class="container rodape-content">
-            <p>&copy; <span id="anoAtual"></span> Nome do Negócio. Todos os direitos reservados.</p>
+            <p>&copy; <span id="anoAtual"></span> Aro Alto — Academia de Basquetebol. Todos os direitos reservados.</p>
             <div class="rodape-social">
                 <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.87v-6.98H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.98A10 10 0 0 0 22 12z"/></svg></a>
                 <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
-                <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.15 1.45-2.15 2.94v5.66H9.34V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
+                <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6z"/></svg></a>
             </div>
         </div>
     </footer>
@@ -177,8 +220,8 @@
          RESUMO FLUTUANTE (mostra logo que há seleção)
          ============================================ -->
     <button type="button" id="resumoFlutuante" class="resumo-flutuante" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span id="resumoFlutuanteTexto">0 serviços · 0 €</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg>
+        <span id="resumoFlutuanteTexto">0 programas · 0 €</span>
     </button>
 
     <script src="script.js"></script>

@@ -1,9 +1,9 @@
 // ============================================
-// TEMPLATE "INTERATIVO" — script.js
+// TEMPLATE "INTERATIVO" — Academia de Basquetebol
 // ============================================
-// Este template simula: catálogo de serviços, calculadora de
-// orçamento em tempo real, marcação de horário e um formulário
-// final que junta tudo e envia o pedido.
+// Catálogo de programas, simulador de mensalidade em tempo
+// real, marcação de aula experimental, e um formulário final
+// que junta tudo e envia a inscrição.
 //
 // Para ligar o envio de emails a sério, cria uma conta grátis em
 // https://formspree.io, cria um formulário e troca o valor de
@@ -13,50 +13,51 @@
 // ============================================
 
 const FORMSPREE_URL = 'https://formspree.io/f/XXXXXXXX'; // <- troca aqui
-const EMAIL_NEGOCIO = 'geral@nomedonegocio.pt'; // <- troca aqui (usado no fallback mailto)
+const EMAIL_NEGOCIO = 'geral@aroalto.pt'; // <- troca aqui (usado no fallback mailto)
 
 // ------------------------------------------------
 // Ícones (SVG reutilizáveis, sem emojis)
 // ------------------------------------------------
 const ICONES_SERVICO = {
-    consultoria: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
-    instalacao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
-    manutencao: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+    bola: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg>',
+    apito: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8h8a4 4 0 0 1 0 8h-2l-2 3-2-3H8a4 4 0 0 1 0-8z"/><circle cx="16" cy="12" r="1.3"/></svg>',
+    camisola: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4 4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-2z"/></svg>',
+    cronometro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>'
 };
 
 // ------------------------------------------------
-// Catálogo de serviços — dados de exemplo
+// Catálogo de programas — dados de exemplo
 // ------------------------------------------------
 const catalogoServicos = [
     {
-        id: 1, categoria: 'Consultoria', nome: 'Consultoria Inicial',
-        preco: 50, icone: 'consultoria',
-        descricao: 'Sessão de diagnóstico para perceber a necessidade do cliente e propor o melhor caminho.'
+        id: 1, categoria: 'Formação Jovem', nome: 'Mini-Basket (6-9 anos)',
+        preco: 30, icone: 'bola',
+        descricao: 'Iniciação lúdica ao basquetebol — coordenação, regras básicas e muita diversão.'
     },
     {
-        id: 2, categoria: 'Consultoria', nome: 'Consultoria Avançada',
-        preco: 90, icone: 'consultoria',
-        descricao: 'Análise mais aprofundada, com relatório escrito e recomendações detalhadas.'
+        id: 2, categoria: 'Formação Jovem', nome: 'Sub-12 (10-12 anos)',
+        preco: 35, icone: 'apito',
+        descricao: 'Fundamentos técnicos e táticos, com primeiros jogos e torneios de formação.'
     },
     {
-        id: 3, categoria: 'Instalação', nome: 'Instalação Standard',
-        preco: 120, icone: 'instalacao',
-        descricao: 'Instalação completa do serviço/equipamento, com testes finais incluídos.'
+        id: 3, categoria: 'Formação Jovem', nome: 'Sub-16 (13-16 anos)',
+        preco: 40, icone: 'camisola',
+        descricao: 'Treino de competição, preparação física e participação no campeonato distrital.'
     },
     {
-        id: 4, categoria: 'Instalação', nome: 'Instalação Premium',
-        preco: 200, icone: 'instalacao',
-        descricao: 'Instalação prioritária com configuração avançada e acompanhamento extra.'
+        id: 4, categoria: 'Adultos', nome: 'Sénior / Adultos',
+        preco: 35, icone: 'bola',
+        descricao: 'Treino livre para adultos de todos os níveis — condição física e jogo em equipa.'
     },
     {
-        id: 5, categoria: 'Manutenção', nome: 'Manutenção Simples',
-        preco: 40, icone: 'manutencao',
-        descricao: 'Revisão rápida para garantir que está tudo a funcionar corretamente.'
+        id: 5, categoria: 'Adultos', nome: 'Veteranos 35+',
+        preco: 30, icone: 'apito',
+        descricao: 'Ritmo adaptado, foco em bem-estar, técnica e convívio dentro de campo.'
     },
     {
-        id: 6, categoria: 'Manutenção', nome: 'Manutenção Completa',
-        preco: 75, icone: 'manutencao',
-        descricao: 'Revisão completa com substituição de peças de desgaste, se necessário.'
+        id: 6, categoria: 'Individual', nome: 'Treino Personalizado 1-a-1',
+        preco: 60, icone: 'cronometro',
+        descricao: 'Sessão individual com treinador dedicado — plano de progressão à medida.'
     }
 ];
 
@@ -69,7 +70,8 @@ const estado = {
     servicosSelecionados: new Set(),
     categoriaAtiva: 'Todos',
     dataEscolhida: null,
-    horaEscolhida: null
+    horaEscolhida: null,
+    inscricaoEnviada: false
 };
 
 // ------------------------------------------------
@@ -107,6 +109,31 @@ function ativarRevelacao(elementos) {
 }
 
 // ------------------------------------------------
+// Indicador de progresso (stepper)
+// ------------------------------------------------
+const stepEls = document.querySelectorAll('.step');
+const linhaEls = document.querySelectorAll('.step-linha');
+
+function atualizarStepper() {
+    const passo1 = estado.servicosSelecionados.size > 0; // Programas escolhidos
+    const passo2 = passo1; // Mensalidade calculada automaticamente junto com o passo 1
+    const passo3 = Boolean(estado.dataEscolhida && estado.horaEscolhida); // Aula marcada
+    const passo4 = estado.inscricaoEnviada; // Inscrição enviada
+
+    const concluidos = [passo1, passo2, passo3, passo4];
+    const atual = concluidos.findIndex(c => !c); // primeiro passo por concluir
+
+    stepEls.forEach((el, i) => {
+        el.classList.toggle('concluido', concluidos[i]);
+        el.classList.toggle('atual', i === atual);
+    });
+
+    linhaEls.forEach((el, i) => {
+        el.classList.toggle('concluida', concluidos[i]);
+    });
+}
+
+// ------------------------------------------------
 // Resumo flutuante (fica sempre visível assim que há seleção)
 // ------------------------------------------------
 const resumoFlutuante = document.getElementById('resumoFlutuante');
@@ -121,12 +148,11 @@ function renderResumoFlutuante() {
     }
 
     const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
-    const plural = selecionados.length === 1 ? 'serviço' : 'serviços';
-    resumoFlutuanteTexto.textContent = `${selecionados.length} ${plural} · ${total} €`;
+    const plural = selecionados.length === 1 ? 'programa' : 'programas';
+    resumoFlutuanteTexto.textContent = `${selecionados.length} ${plural} · ${total} €/mês`;
     resumoFlutuante.hidden = false;
 
     resumoFlutuante.classList.remove('pulso');
-    // força reflow para a animação poder repetir em cliques seguidos
     void resumoFlutuante.offsetWidth;
     resumoFlutuante.classList.add('pulso');
 }
@@ -172,10 +198,10 @@ function renderCatalogo() {
             <p class="servico-categoria">${s.categoria}</p>
             <h3>${s.nome}</h3>
             <p class="servico-desc">${s.descricao}</p>
-            <p class="servico-preco">${s.preco} €</p>
+            <p class="servico-preco">${s.preco} €/mês</p>
             <label class="servico-checkbox">
                 <input type="checkbox" data-id="${s.id}" ${estado.servicosSelecionados.has(s.id) ? 'checked' : ''}>
-                Adicionar ao orçamento
+                Adicionar à inscrição
             </label>
         </div>
     `).join('');
@@ -190,6 +216,7 @@ function renderCatalogo() {
         renderOrcamento();
         renderResumoFinal();
         renderResumoFlutuante();
+        atualizarStepper();
     }
 
     catalogoGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -204,6 +231,7 @@ function renderCatalogo() {
             renderOrcamento();
             renderResumoFinal();
             renderResumoFlutuante();
+            atualizarStepper();
         });
     });
 
@@ -219,7 +247,7 @@ function renderCatalogo() {
 }
 
 // ------------------------------------------------
-// Orçamento (calculadora)
+// Orçamento (simulador de mensalidade)
 // ------------------------------------------------
 const listaOrcamento = document.getElementById('listaOrcamento');
 const orcamentoTotal = document.getElementById('orcamentoTotal');
@@ -228,7 +256,7 @@ function renderOrcamento() {
     const selecionados = catalogoServicos.filter(s => estado.servicosSelecionados.has(s.id));
 
     if (selecionados.length === 0) {
-        listaOrcamento.innerHTML = '<li class="orcamento-vazio">Ainda não selecionou nenhum serviço.</li>';
+        listaOrcamento.innerHTML = '<li class="orcamento-vazio">Ainda não escolheste nenhum programa.</li>';
         orcamentoTotal.textContent = '0 €';
         return;
     }
@@ -238,7 +266,7 @@ function renderOrcamento() {
     `).join('');
 
     const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
-    orcamentoTotal.textContent = `${total} €`;
+    orcamentoTotal.textContent = `${total} €/mês`;
 
     orcamentoTotal.classList.remove('pulso');
     void orcamentoTotal.offsetWidth;
@@ -275,6 +303,7 @@ dataMarcacao.addEventListener('change', () => {
 
     if (!estado.dataEscolhida) {
         blocoHorarios.hidden = true;
+        atualizarStepper();
         return;
     }
 
@@ -293,12 +322,14 @@ dataMarcacao.addEventListener('change', () => {
             estado.horaEscolhida = btn.dataset.hora;
             atualizarResumoMarcacao();
             renderResumoFinal();
+            atualizarStepper();
         });
     });
 
     blocoHorarios.hidden = false;
     atualizarResumoMarcacao();
     renderResumoFinal();
+    atualizarStepper();
 });
 
 function formatarDataPt(dataStr) {
@@ -312,12 +343,12 @@ function atualizarResumoMarcacao() {
         return;
     }
     marcacaoResumo.textContent = estado.horaEscolhida
-        ? `Marcação selecionada: ${formatarDataPt(estado.dataEscolhida)} às ${estado.horaEscolhida}`
-        : `Escolha um horário disponível para ${formatarDataPt(estado.dataEscolhida)}.`;
+        ? `Aula marcada: ${formatarDataPt(estado.dataEscolhida)} às ${estado.horaEscolhida}`
+        : `Escolhe um horário disponível para ${formatarDataPt(estado.dataEscolhida)}.`;
 }
 
 // ------------------------------------------------
-// Resumo final (dentro do formulário de contacto)
+// Resumo final (dentro do formulário de inscrição)
 // ------------------------------------------------
 const resumoServicos = document.getElementById('resumoServicos');
 const resumoHorario = document.getElementById('resumoHorario');
@@ -326,14 +357,14 @@ function renderResumoFinal() {
     const selecionados = catalogoServicos.filter(s => estado.servicosSelecionados.has(s.id));
 
     if (selecionados.length === 0) {
-        resumoServicos.textContent = 'Nenhum serviço selecionado ainda.';
+        resumoServicos.textContent = 'Nenhum programa selecionado ainda.';
     } else {
         const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
-        resumoServicos.textContent = `Serviços: ${selecionados.map(s => s.nome).join(', ')} — Total: ${total} €`;
+        resumoServicos.textContent = `Programas: ${selecionados.map(s => s.nome).join(', ')} — Mensalidade: ${total} €`;
     }
 
     resumoHorario.textContent = (estado.dataEscolhida && estado.horaEscolhida)
-        ? `Horário: ${formatarDataPt(estado.dataEscolhida)} às ${estado.horaEscolhida}`
+        ? `Aula experimental: ${formatarDataPt(estado.dataEscolhida)} às ${estado.horaEscolhida}`
         : 'Nenhum horário selecionado ainda.';
 }
 
@@ -362,16 +393,18 @@ formContacto.addEventListener('submit', async (e) => {
         : 'Não selecionado';
 
     const corpoCompleto =
-        `Nome: ${nome}\nEmail: ${email}\nTelefone: ${telefone || '-'}\n\n` +
-        `Serviços pedidos: ${resumoServicosTexto}\nTotal estimado: ${total} €\n` +
-        `Horário pretendido: ${resumoHorarioTexto}\n\nMensagem:\n${mensagem || '-'}`;
+        `Nome do atleta: ${nome}\nEmail: ${email}\nTelefone: ${telefone || '-'}\n\n` +
+        `Programas escolhidos: ${resumoServicosTexto}\nMensalidade estimada: ${total} €\n` +
+        `Aula experimental: ${resumoHorarioTexto}\n\nMensagem:\n${mensagem || '-'}`;
 
     // Enquanto o Formspree não estiver configurado, usa mailto como alternativa
     if (FORMSPREE_URL.includes('XXXXXXXX')) {
-        const assunto = encodeURIComponent(`Novo pedido de orçamento de ${nome}`);
+        const assunto = encodeURIComponent(`Nova inscrição de ${nome}`);
         window.location.href = `mailto:${EMAIL_NEGOCIO}?subject=${assunto}&body=${encodeURIComponent(corpoCompleto)}`;
-        formNota.textContent = 'A abrir o teu email para enviares o pedido... (liga o Formspree para enviar sem sair da página)';
+        formNota.textContent = 'A abrir o teu email para enviares a inscrição... (liga o Formspree para enviar sem sair da página)';
         formNota.className = 'form-nota';
+        estado.inscricaoEnviada = true;
+        atualizarStepper();
         return;
     }
 
@@ -393,8 +426,9 @@ formContacto.addEventListener('submit', async (e) => {
         });
 
         if (resposta.ok) {
-            formNota.textContent = 'Pedido enviado com sucesso! Entraremos em contacto em breve.';
+            formNota.textContent = 'Inscrição enviada com sucesso! Entraremos em contacto em breve.';
             formNota.className = 'form-nota sucesso';
+            estado.inscricaoEnviada = true;
             formContacto.reset();
             estado.servicosSelecionados.clear();
             estado.dataEscolhida = null;
@@ -404,6 +438,7 @@ formContacto.addEventListener('submit', async (e) => {
             renderOrcamento();
             renderResumoFinal();
             renderResumoFlutuante();
+            atualizarStepper();
         } else {
             throw new Error('Falha no envio');
         }
@@ -423,4 +458,5 @@ renderCatalogo();
 renderOrcamento();
 renderResumoFinal();
 renderResumoFlutuante();
+atualizarStepper();
 ativarRevelacao(document.querySelectorAll('.orcamento-caixa, .marcacoes-caixa, .contacto-form'));
