@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nome do Negócio | Peça o seu Orçamento Online</title>
+    <meta name="description" content="Escolha os serviços, veja o preço na hora e marque um horário — tudo online.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ============================================
+         CABEÇALHO
+         ============================================ -->
+    <header id="cabecalho">
+        <div class="container header-content">
+            <a href="#topo" class="logo">Nome do Negócio</a>
+
+            <nav id="navPrincipal">
+                <a href="#catalogo">Serviços</a>
+                <a href="#orcamento">Orçamento</a>
+                <a href="#marcacoes">Marcar Horário</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+
+            <div class="header-acoes">
+                <a href="#catalogo" class="btn btn-primario">Pedir Orçamento</a>
+                <button id="btnMenu" class="btn-menu" aria-label="Abrir menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section id="topo" class="hero">
+        <div class="container hero-content">
+            <p class="etiqueta">Peça já o seu orçamento</p>
+            <h1>Escolha os serviços, veja o preço na hora e marque um horário</h1>
+            <p class="hero-subtitulo">Sem telefonemas nem esperas — monte o seu pedido abaixo em menos de dois minutos.</p>
+            <div class="hero-cta">
+                <a href="#catalogo" class="btn btn-primario btn-grande">Começar Agora</a>
+                <a href="#marcacoes" class="btn btn-secundario btn-grande">Ir direto à Marcação</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CATÁLOGO DE SERVIÇOS
+         ============================================ -->
+    <section id="catalogo" class="catalogo">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro">Passo 1</p>
+            <h2 class="titulo-centro">Escolha os serviços que pretende</h2>
+
+            <div class="filtros" id="filtrosCategoria">
+                <!-- Gerado pelo JavaScript -->
+            </div>
+
+            <div class="catalogo-grid" id="catalogoGrid">
+                <!-- Gerado pelo JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ORÇAMENTO (CALCULADORA)
+         ============================================ -->
+    <section id="orcamento" class="orcamento">
+        <div class="container orcamento-content">
+            <div class="orcamento-texto">
+                <p class="etiqueta">Passo 2</p>
+                <h2>O seu orçamento em tempo real</h2>
+                <p>Os serviços selecionados no catálogo aparecem aqui, com o valor total atualizado automaticamente.</p>
+            </div>
+
+            <div class="orcamento-caixa">
+                <h3>Resumo do pedido</h3>
+                <ul id="listaOrcamento" class="orcamento-lista">
+                    <li class="orcamento-vazio" id="orcamentoVazio">Ainda não selecionou nenhum serviço.</li>
+                </ul>
+                <div class="orcamento-total">
+                    <span>Total estimado</span>
+                    <span id="orcamentoTotal">0 €</span>
+                </div>
+                <a href="#marcacoes" class="btn btn-primario btn-full">Marcar Horário →</a>
+                <p class="orcamento-aviso">Valor estimado — pode variar após confirmação.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         MARCAÇÕES
+         ============================================ -->
+    <section id="marcacoes" class="marcacoes">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro">Passo 3</p>
+            <h2 class="titulo-centro">Escolha data e hora</h2>
+
+            <div class="marcacoes-caixa">
+                <label for="dataMarcacao">Data pretendida</label>
+                <input type="date" id="dataMarcacao">
+
+                <div id="blocoHorarios" class="bloco-horarios" hidden>
+                    <p class="horarios-label">Horários disponíveis</p>
+                    <div class="horarios-grid" id="horariosGrid">
+                        <!-- Gerado pelo JavaScript -->
+                    </div>
+                </div>
+
+                <p class="marcacao-resumo" id="marcacaoResumo"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CONTACTO / ENVIO DO PEDIDO
+         ============================================ -->
+    <section id="contacto" class="contacto">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro">Passo 4</p>
+            <h2 class="titulo-centro">Envie o seu pedido</h2>
+            <p class="contacto-subtitulo">Confirme os seus dados — o pedido inclui automaticamente os serviços e o horário escolhidos acima.</p>
+
+            <form class="contacto-form" id="formContacto">
+                <!-- TROCA "XXXXXXXX" pelo teu ID do Formspree (grátis em formspree.io) -->
+                <!-- <form ... action="https://formspree.io/f/XXXXXXXX" method="POST"> também funciona sem JS -->
+
+                <div class="form-grid">
+                    <div>
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="telefone">Telefone (opcional)</label>
+                    <input type="tel" id="telefone" name="telefone">
+                </div>
+                <div>
+                    <label for="mensagem">Mensagem adicional (opcional)</label>
+                    <textarea id="mensagem" name="mensagem" rows="3"></textarea>
+                </div>
+
+                <div class="resumo-final" id="resumoFinal">
+                    <p><strong>Resumo do pedido</strong></p>
+                    <p id="resumoServicos">Nenhum serviço selecionado ainda.</p>
+                    <p id="resumoHorario">Nenhum horário selecionado ainda.</p>
+                </div>
+
+                <button type="submit" class="btn btn-primario btn-grande" id="btnEnviar">Enviar Pedido</button>
+                <p class="form-nota" id="formNota"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ============================================
+         RODAPÉ
+         ============================================ -->
+    <footer class="rodape">
+        <div class="container rodape-content">
+            <p>&copy; <span id="anoAtual"></span> Nome do Negócio. Todos os direitos reservados.</p>
+            <div class="rodape-social">
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.87v-6.98H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.98A10 10 0 0 0 22 12z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+                <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.15 1.45-2.15 2.94v5.66H9.34V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
