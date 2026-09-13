@@ -88,6 +88,54 @@ navPrincipal.querySelectorAll('a').forEach(link => {
 });
 
 // ------------------------------------------------
+// Animação de entrada ao scroll (dá vida à página)
+// ------------------------------------------------
+const observadorRevelacao = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+        if (entrada.isIntersecting) {
+            entrada.target.classList.add('visivel');
+            observadorRevelacao.unobserve(entrada.target);
+        }
+    });
+}, { threshold: 0.12 });
+
+function ativarRevelacao(elementos) {
+    elementos.forEach(el => {
+        el.classList.add('reveal');
+        observadorRevelacao.observe(el);
+    });
+}
+
+// ------------------------------------------------
+// Resumo flutuante (fica sempre visível assim que há seleção)
+// ------------------------------------------------
+const resumoFlutuante = document.getElementById('resumoFlutuante');
+const resumoFlutuanteTexto = document.getElementById('resumoFlutuanteTexto');
+
+function renderResumoFlutuante() {
+    const selecionados = catalogoServicos.filter(s => estado.servicosSelecionados.has(s.id));
+
+    if (selecionados.length === 0) {
+        resumoFlutuante.hidden = true;
+        return;
+    }
+
+    const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
+    const plural = selecionados.length === 1 ? 'serviço' : 'serviços';
+    resumoFlutuanteTexto.textContent = `${selecionados.length} ${plural} · ${total} €`;
+    resumoFlutuante.hidden = false;
+
+    resumoFlutuante.classList.remove('pulso');
+    // força reflow para a animação poder repetir em cliques seguidos
+    void resumoFlutuante.offsetWidth;
+    resumoFlutuante.classList.add('pulso');
+}
+
+resumoFlutuante.addEventListener('click', () => {
+    document.getElementById('orcamento').scrollIntoView({ behavior: 'smooth' });
+});
+
+// ------------------------------------------------
 // Filtros de categoria
 // ------------------------------------------------
 const filtrosContainer = document.getElementById('filtrosCategoria');
@@ -132,6 +180,18 @@ function renderCatalogo() {
         </div>
     `).join('');
 
+    function alternarSelecao(id) {
+        if (estado.servicosSelecionados.has(id)) {
+            estado.servicosSelecionados.delete(id);
+        } else {
+            estado.servicosSelecionados.add(id);
+        }
+        renderCatalogo();
+        renderOrcamento();
+        renderResumoFinal();
+        renderResumoFlutuante();
+    }
+
     catalogoGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
         cb.addEventListener('change', (e) => {
             const id = Number(e.target.dataset.id);
@@ -143,8 +203,19 @@ function renderCatalogo() {
             renderCatalogo();
             renderOrcamento();
             renderResumoFinal();
+            renderResumoFlutuante();
         });
     });
+
+    // clicar em qualquer ponto do cartão também seleciona (não só na checkbox)
+    catalogoGrid.querySelectorAll('.servico-cartao').forEach(cartao => {
+        cartao.addEventListener('click', (e) => {
+            if (e.target.closest('.servico-checkbox')) return; // deixa a checkbox tratar do próprio clique
+            alternarSelecao(Number(cartao.dataset.id));
+        });
+    });
+
+    ativarRevelacao(catalogoGrid.querySelectorAll('.servico-cartao'));
 }
 
 // ------------------------------------------------
@@ -168,6 +239,10 @@ function renderOrcamento() {
 
     const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
     orcamentoTotal.textContent = `${total} €`;
+
+    orcamentoTotal.classList.remove('pulso');
+    void orcamentoTotal.offsetWidth;
+    orcamentoTotal.classList.add('pulso');
 }
 
 // ------------------------------------------------
@@ -328,6 +403,7 @@ formContacto.addEventListener('submit', async (e) => {
             renderCatalogo();
             renderOrcamento();
             renderResumoFinal();
+            renderResumoFlutuante();
         } else {
             throw new Error('Falha no envio');
         }
@@ -346,3 +422,5 @@ renderFiltros();
 renderCatalogo();
 renderOrcamento();
 renderResumoFinal();
+renderResumoFlutuante();
+ativarRevelacao(document.querySelectorAll('.orcamento-caixa, .marcacoes-caixa, .contacto-form'));
