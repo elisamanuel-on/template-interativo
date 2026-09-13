@@ -31,33 +31,43 @@ const ICONES_SERVICO = {
 const catalogoServicos = [
     {
         id: 1, categoria: 'Formação Jovem', nome: 'Mini-Basket (6-9 anos)',
-        preco: 30, icone: 'bola',
+        preco: 30, tipo: 'mensal', icone: 'bola',
         descricao: 'Iniciação lúdica ao basquetebol — coordenação, regras básicas e muita diversão.'
     },
     {
         id: 2, categoria: 'Formação Jovem', nome: 'Sub-12 (10-12 anos)',
-        preco: 35, icone: 'apito',
+        preco: 35, tipo: 'mensal', icone: 'apito',
         descricao: 'Fundamentos técnicos e táticos, com primeiros jogos e torneios de formação.'
     },
     {
         id: 3, categoria: 'Formação Jovem', nome: 'Sub-16 (13-16 anos)',
-        preco: 40, icone: 'camisola',
+        preco: 40, tipo: 'mensal', icone: 'camisola',
         descricao: 'Treino de competição, preparação física e participação no campeonato distrital.'
     },
     {
         id: 4, categoria: 'Adultos', nome: 'Sénior / Adultos',
-        preco: 35, icone: 'bola',
+        preco: 35, tipo: 'mensal', icone: 'bola',
         descricao: 'Treino livre para adultos de todos os níveis — condição física e jogo em equipa.'
     },
     {
         id: 5, categoria: 'Adultos', nome: 'Veteranos 35+',
-        preco: 30, icone: 'apito',
+        preco: 30, tipo: 'mensal', icone: 'apito',
         descricao: 'Ritmo adaptado, foco em bem-estar, técnica e convívio dentro de campo.'
     },
     {
         id: 6, categoria: 'Individual', nome: 'Treino Personalizado 1-a-1',
-        preco: 60, icone: 'cronometro',
+        preco: 60, tipo: 'mensal', icone: 'cronometro',
         descricao: 'Sessão individual com treinador dedicado — plano de progressão à medida.'
+    },
+    {
+        id: 7, categoria: 'Equipamento', nome: 'Kit Completo Aro Alto',
+        preco: 45, tipo: 'unico', icone: 'camisola',
+        descricao: 'Camisola oficial + calções do clube, com nome e número personalizados.'
+    },
+    {
+        id: 8, categoria: 'Equipamento', nome: 'Camisola Avulso',
+        preco: 28, tipo: 'unico', icone: 'camisola',
+        descricao: 'Apenas a camisola oficial, para quem já tem equipamento de treino.'
     }
 ];
 
@@ -147,9 +157,13 @@ function renderResumoFlutuante() {
         return;
     }
 
-    const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
+    const totalMensal = totalPorTipo(selecionados, 'mensal');
+    const totalUnico = totalPorTipo(selecionados, 'unico');
     const plural = selecionados.length === 1 ? 'programa' : 'programas';
-    resumoFlutuanteTexto.textContent = `${selecionados.length} ${plural} · ${total} €/mês`;
+    const partes = [];
+    if (totalMensal > 0) partes.push(`${totalMensal} €/mês`);
+    if (totalUnico > 0) partes.push(`${totalUnico} € único`);
+    resumoFlutuanteTexto.textContent = `${selecionados.length} ${plural} · ${partes.join(' + ')}`;
     resumoFlutuante.hidden = false;
 
     resumoFlutuante.classList.remove('pulso');
@@ -198,7 +212,7 @@ function renderCatalogo() {
             <p class="servico-categoria">${s.categoria}</p>
             <h3>${s.nome}</h3>
             <p class="servico-desc">${s.descricao}</p>
-            <p class="servico-preco">${s.preco} €/mês</p>
+            <p class="servico-preco">${s.preco} € ${s.tipo === 'unico' ? '<span class="servico-preco-tipo">pagamento único</span>' : '<span class="servico-preco-tipo">/mês</span>'}</p>
             <label class="servico-checkbox">
                 <input type="checkbox" data-id="${s.id}" ${estado.servicosSelecionados.has(s.id) ? 'checked' : ''}>
                 Adicionar à inscrição
@@ -252,6 +266,10 @@ function renderCatalogo() {
 const listaOrcamento = document.getElementById('listaOrcamento');
 const orcamentoTotal = document.getElementById('orcamentoTotal');
 
+function totalPorTipo(itens, tipo) {
+    return itens.filter(s => s.tipo === tipo).reduce((soma, s) => soma + s.preco, 0);
+}
+
 function renderOrcamento() {
     const selecionados = catalogoServicos.filter(s => estado.servicosSelecionados.has(s.id));
 
@@ -262,11 +280,19 @@ function renderOrcamento() {
     }
 
     listaOrcamento.innerHTML = selecionados.map(s => `
-        <li><span>${s.nome}</span><span class="item-preco">${s.preco} €</span></li>
+        <li><span>${s.nome}</span><span class="item-preco">${s.preco} € ${s.tipo === 'unico' ? '(único)' : '/mês'}</span></li>
     `).join('');
 
-    const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
-    orcamentoTotal.textContent = `${total} €/mês`;
+    const totalMensal = totalPorTipo(selecionados, 'mensal');
+    const totalUnico = totalPorTipo(selecionados, 'unico');
+
+    if (totalMensal > 0 && totalUnico > 0) {
+        orcamentoTotal.innerHTML = `${totalMensal} €/mês <span class="orcamento-total-extra">+ ${totalUnico} € equipamento (único)</span>`;
+    } else if (totalUnico > 0) {
+        orcamentoTotal.textContent = `${totalUnico} € (pagamento único)`;
+    } else {
+        orcamentoTotal.textContent = `${totalMensal} €/mês`;
+    }
 
     orcamentoTotal.classList.remove('pulso');
     void orcamentoTotal.offsetWidth;
@@ -359,8 +385,12 @@ function renderResumoFinal() {
     if (selecionados.length === 0) {
         resumoServicos.textContent = 'Nenhum programa selecionado ainda.';
     } else {
-        const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
-        resumoServicos.textContent = `Programas: ${selecionados.map(s => s.nome).join(', ')} — Mensalidade: ${total} €`;
+        const totalMensal = totalPorTipo(selecionados, 'mensal');
+        const totalUnico = totalPorTipo(selecionados, 'unico');
+        const partes = [];
+        if (totalMensal > 0) partes.push(`Mensalidade: ${totalMensal} €`);
+        if (totalUnico > 0) partes.push(`Equipamento (único): ${totalUnico} €`);
+        resumoServicos.textContent = `Programas: ${selecionados.map(s => s.nome).join(', ')} — ${partes.join(' · ')}`;
     }
 
     resumoHorario.textContent = (estado.dataEscolhida && estado.horaEscolhida)
@@ -374,6 +404,25 @@ function renderResumoFinal() {
 const formContacto = document.getElementById('formContacto');
 const formNota = document.getElementById('formNota');
 const btnEnviar = document.getElementById('btnEnviar');
+const confirmacaoEnvio = document.getElementById('confirmacaoEnvio');
+const linkAbrirEmail = document.getElementById('linkAbrirEmail');
+const textoMensagem = document.getElementById('textoMensagem');
+const btnCopiarMensagem = document.getElementById('btnCopiarMensagem');
+
+btnCopiarMensagem.addEventListener('click', async () => {
+    try {
+        await navigator.clipboard.writeText(textoMensagem.value);
+        btnCopiarMensagem.textContent = 'Copiado!';
+        btnCopiarMensagem.classList.add('copiado');
+    } catch (erro) {
+        // sem permissão de clipboard — seleciona o texto para copiar manualmente (Ctrl+C)
+        textoMensagem.select();
+    }
+    setTimeout(() => {
+        btnCopiarMensagem.textContent = 'Copiar mensagem';
+        btnCopiarMensagem.classList.remove('copiado');
+    }, 2500);
+});
 
 formContacto.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -384,9 +433,10 @@ formContacto.addEventListener('submit', async (e) => {
     const mensagem = document.getElementById('mensagem').value.trim();
 
     const selecionados = catalogoServicos.filter(s => estado.servicosSelecionados.has(s.id));
-    const total = selecionados.reduce((soma, s) => soma + s.preco, 0);
+    const totalMensal = totalPorTipo(selecionados, 'mensal');
+    const totalUnico = totalPorTipo(selecionados, 'unico');
     const resumoServicosTexto = selecionados.length
-        ? selecionados.map(s => `${s.nome} (${s.preco} €)`).join(', ')
+        ? selecionados.map(s => `${s.nome} (${s.preco} € ${s.tipo === 'unico' ? 'único' : '/mês'})`).join(', ')
         : 'Nenhum';
     const resumoHorarioTexto = (estado.dataEscolhida && estado.horaEscolhida)
         ? `${formatarDataPt(estado.dataEscolhida)} às ${estado.horaEscolhida}`
@@ -394,17 +444,22 @@ formContacto.addEventListener('submit', async (e) => {
 
     const corpoCompleto =
         `Nome do atleta: ${nome}\nEmail: ${email}\nTelefone: ${telefone || '-'}\n\n` +
-        `Programas escolhidos: ${resumoServicosTexto}\nMensalidade estimada: ${total} €\n` +
+        `Programas escolhidos: ${resumoServicosTexto}\n` +
+        `Mensalidade estimada: ${totalMensal} €` + (totalUnico > 0 ? ` + ${totalUnico} € de equipamento (pagamento único)` : '') + `\n` +
         `Aula experimental: ${resumoHorarioTexto}\n\nMensagem:\n${mensagem || '-'}`;
 
-    // Enquanto o Formspree não estiver configurado, usa mailto como alternativa
+    // Enquanto o Formspree não estiver configurado, mostra uma alternativa que
+    // funciona sempre: um link mailto (clicado pela própria pessoa, mais fiável
+    // do que redirecionar automaticamente) + a mensagem pronta a copiar.
     if (FORMSPREE_URL.includes('XXXXXXXX')) {
         const assunto = encodeURIComponent(`Nova inscrição de ${nome}`);
-        window.location.href = `mailto:${EMAIL_NEGOCIO}?subject=${assunto}&body=${encodeURIComponent(corpoCompleto)}`;
-        formNota.textContent = 'A abrir o teu email para enviares a inscrição... (liga o Formspree para enviar sem sair da página)';
-        formNota.className = 'form-nota';
+        linkAbrirEmail.href = `mailto:${EMAIL_NEGOCIO}?subject=${assunto}&body=${encodeURIComponent(corpoCompleto)}`;
+        textoMensagem.value = `Para: ${EMAIL_NEGOCIO}\n\n${corpoCompleto}`;
+        confirmacaoEnvio.hidden = false;
+        formNota.textContent = '';
         estado.inscricaoEnviada = true;
         atualizarStepper();
+        confirmacaoEnvio.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
     }
 

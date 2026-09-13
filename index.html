@@ -47,9 +47,24 @@
                 <path d="M0 90 Q 180 250 0 410" fill="none" stroke="currentColor" stroke-width="2"/>
                 <path d="M800 90 Q 620 250 800 410" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
-            <svg class="hero-bola" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/>
+            <svg class="hero-mascote" viewBox="0 0 100 100" fill="#ff6b00" stroke="#0d0d0d" stroke-width="2" stroke-linejoin="round">
+                <path d="M45 15 L43 6 L49 13 Z" stroke-width="1.6"/>
+                <path d="M55 15 L57 6 L51 13 Z" stroke-width="1.6"/>
+                <circle cx="50" cy="24" r="11" fill="#fff" stroke-width="2.5"/>
+                <circle cx="45" cy="23" r="2" fill="#0d0d0d" stroke="none"/>
+                <circle cx="55" cy="23" r="2" fill="#0d0d0d" stroke="none"/>
+                <path d="M45 29 L50 26 L55 29 L50 37 Z" stroke-width="2"/>
+                <path d="M50 34 C 42 40, 40 48, 42 58 L58 58 C 60 48, 58 40, 50 34 Z" stroke-width="2.5"/>
+                <path d="M42 40 C 20 42, 4 55, 2 78 C 16 70, 26 66, 40 60 C 40 55, 40 46, 42 40 Z" fill="#ff7a1a" stroke-width="2.5"/>
+                <path d="M10 62 C 8 66, 6 72, 4 78" fill="none" stroke-width="1.6"/>
+                <path d="M18 58 C 16 64, 14 70, 12 76" fill="none" stroke-width="1.6"/>
+                <path d="M28 55 C 26 61, 24 67, 22 73" fill="none" stroke-width="1.4"/>
+                <path d="M58 40 C 80 42, 96 55, 98 78 C 84 70, 74 66, 60 60 C 60 55, 60 46, 58 40 Z" fill="#ff7a1a" stroke-width="2.5"/>
+                <path d="M90 62 C 92 66, 94 72, 96 78" fill="none" stroke-width="1.6"/>
+                <path d="M82 58 C 84 64, 86 70, 88 76" fill="none" stroke-width="1.6"/>
+                <path d="M72 55 C 74 61, 76 67, 78 73" fill="none" stroke-width="1.4"/>
+                <circle cx="50" cy="72" r="9" fill="#fff" stroke-width="2.5"/>
+                <path d="M41 72h18M50 63v18M43.5 65.5c2.5 2.5 2.5 10 0 13M56.5 65.5c-2.5 2.5-2.5 10 0 13" stroke="#ff6b00" stroke-width="1.4" fill="none"/>
             </svg>
         </div>
 
@@ -198,6 +213,16 @@
 
                 <button type="submit" class="btn btn-primario btn-grande" id="btnEnviar">Enviar Inscrição</button>
                 <p class="form-nota" id="formNota"></p>
+
+                <div class="confirmacao-envio" id="confirmacaoEnvio" hidden>
+                    <p class="confirmacao-titulo">A tua inscrição está pronta a enviar</p>
+                    <p class="confirmacao-texto">O teu email não abriu automaticamente (é normal se não tiveres um cliente de email predefinido neste computador). Escolhe uma opção:</p>
+                    <div class="confirmacao-acoes">
+                        <a href="#" id="linkAbrirEmail" class="btn btn-primario">Abrir no meu email</a>
+                        <button type="button" id="btnCopiarMensagem" class="btn btn-secundario-claro">Copiar mensagem</button>
+                    </div>
+                    <textarea id="textoMensagem" class="confirmacao-texto-area" readonly rows="6"></textarea>
+                </div>
             </form>
         </div>
     </section>
