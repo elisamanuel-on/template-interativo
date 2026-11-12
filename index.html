@@ -4,30 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aro Alto | Academia de Basquetebol</title>
-    <meta name="description" content="Aulas de basquetebol para todas as idades — escolha o programa, veja o preço na hora e marque uma aula experimental grátis.">
+    <meta name="description" content="Aulas de basquetebol para todas as idades. Escolhe o programa, vê o preço na hora e marca uma aula experimental grátis.">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="carregando">
 
-    <!-- ============================================
-         CABEÇALHO
-         ============================================ -->
+    <!-- A abertura animada é criada por abertura.js e fica por cima de tudo até terminar -->
+
+    <!-- ============ ANÚNCIO: INSCRIÇÕES ABERTAS ============ -->
+    <aside class="anuncio" id="anuncio" aria-label="Inscrições abertas">
+        <div class="container anuncio-linha">
+            <span class="anuncio-selo"><span>Inscrições abertas</span></span>
+            <div class="anuncio-msgs" id="anuncioMsgs" aria-live="off"></div>
+            <button type="button" class="anuncio-btn" id="anuncioBtn" aria-expanded="false" aria-controls="anuncioPainel"><span id="anuncioBtnTxt">Ver vagas</span><span class="mais" aria-hidden="true"></span></button>
+        </div>
+        <div class="anuncio-painel" id="anuncioPainel" hidden>
+            <div class="container anuncio-painel-grid">
+                <div>
+                    <h2>Nova época 2026/27</h2>
+                    <p>As vagas são limitadas em todos os escalões. Escolhe um e vai direto aos programas, ou marca já uma aula experimental grátis.</p>
+                    <a href="#marcacoes" class="btn btn-primario btn-corte" id="anuncioMarcar">Marcar aula grátis</a>
+                </div>
+                <ul class="vagas" id="listaVagas"></ul>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============ CABEÇALHO ============ -->
     <header id="cabecalho">
         <div class="container header-content">
             <a href="#topo" class="logo">
                 <svg class="logo-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg>
-                ARO ALTO
+                <span>ARO ALTO</span>
             </a>
-
-            <nav id="navPrincipal">
-                <a href="#catalogo">Programas</a>
-                <a href="#orcamento">Mensalidade</a>
-                <a href="#marcacoes">Aula Experimental</a>
-                <a href="#contacto">Contacto</a>
+            <nav id="navPrincipal" aria-label="Principal">
+                <a href="#epoca">Época</a>
+                <a href="#equipa">Equipa</a>
+                <a href="#noticias">Notícias</a>
+                <a href="#parceiros">Parceiros</a>
             </nav>
-
             <div class="header-acoes">
-                <a href="#catalogo" class="btn btn-primario">Ver Programas</a>
+                <a href="#marcacoes" class="btn btn-primario btn-corte">Aula grátis</a>
                 <button id="btnMenu" class="btn-menu" aria-label="Abrir menu" aria-expanded="false">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                 </button>
@@ -35,9 +52,8 @@
         </div>
     </header>
 
-    <!-- ============================================
-         HERO
-         ============================================ -->
+    <main>
+    <!-- ============ HERO ============ -->
     <section id="topo" class="hero">
         <div class="hero-fundo" aria-hidden="true">
             <svg class="hero-linhas" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
@@ -47,96 +63,94 @@
                 <path d="M0 90 Q 180 250 0 410" fill="none" stroke="currentColor" stroke-width="2"/>
                 <path d="M800 90 Q 620 250 800 410" fill="none" stroke="currentColor" stroke-width="2"/>
             </svg>
-            <svg class="hero-mascote" viewBox="0 0 100 100" fill="#ff6b00" stroke="#0d0d0d" stroke-width="2" stroke-linejoin="round">
-                <path d="M45 15 L43 6 L49 13 Z" stroke-width="1.6"/>
-                <path d="M55 15 L57 6 L51 13 Z" stroke-width="1.6"/>
-                <circle cx="50" cy="24" r="11" fill="#fff" stroke-width="2.5"/>
-                <circle cx="45" cy="23" r="2" fill="#0d0d0d" stroke="none"/>
-                <circle cx="55" cy="23" r="2" fill="#0d0d0d" stroke="none"/>
-                <path d="M45 29 L50 26 L55 29 L50 37 Z" stroke-width="2"/>
-                <path d="M50 34 C 42 40, 40 48, 42 58 L58 58 C 60 48, 58 40, 50 34 Z" stroke-width="2.5"/>
-                <path d="M42 40 C 20 42, 4 55, 2 78 C 16 70, 26 66, 40 60 C 40 55, 40 46, 42 40 Z" fill="#ff7a1a" stroke-width="2.5"/>
-                <path d="M10 62 C 8 66, 6 72, 4 78" fill="none" stroke-width="1.6"/>
-                <path d="M18 58 C 16 64, 14 70, 12 76" fill="none" stroke-width="1.6"/>
-                <path d="M28 55 C 26 61, 24 67, 22 73" fill="none" stroke-width="1.4"/>
-                <path d="M58 40 C 80 42, 96 55, 98 78 C 84 70, 74 66, 60 60 C 60 55, 60 46, 58 40 Z" fill="#ff7a1a" stroke-width="2.5"/>
-                <path d="M90 62 C 92 66, 94 72, 96 78" fill="none" stroke-width="1.6"/>
-                <path d="M82 58 C 84 64, 86 70, 88 76" fill="none" stroke-width="1.6"/>
-                <path d="M72 55 C 74 61, 76 67, 78 73" fill="none" stroke-width="1.4"/>
-                <circle cx="50" cy="72" r="9" fill="#fff" stroke-width="2.5"/>
-                <path d="M41 72h18M50 63v18M43.5 65.5c2.5 2.5 2.5 10 0 13M56.5 65.5c-2.5 2.5-2.5 10 0 13" stroke="#ff6b00" stroke-width="1.4" fill="none"/>
-            </svg>
+            <span class="hero-faixa f1"></span><span class="hero-faixa f2"></span>
+            <span class="hero-numero">23</span>
         </div>
-
-        <div class="container hero-content">
-            <p class="etiqueta etiqueta-clara">Academia de Basquetebol</p>
-            <h1>Treina como um <span class="destaque-texto">profissional</span>, desde o primeiro dia</h1>
-            <p class="hero-subtitulo">Programas para todas as idades e níveis — dos mini-basket à competição. Escolhe o teu programa e marca uma aula experimental grátis.</p>
-            <div class="hero-cta">
-                <a href="#marcacoes" class="btn btn-primario btn-grande">Marcar Aula Experimental</a>
-                <a href="#catalogo" class="btn btn-secundario btn-grande">Ver Programas</a>
+        <div class="container hero-grid">
+            <div class="hero-texto">
+                <p class="etiqueta etiqueta-clara hero-in" style="--d:.0s">Academia de Basquetebol · Época 2026/27</p>
+                <h1 class="hero-in" style="--d:.08s">Treina como um <span class="destaque-texto">profissional</span>, desde o primeiro dia</h1>
+                <p class="hero-subtitulo hero-in" style="--d:.16s">Programas para todas as idades e níveis, do mini-basket à competição. Escolhe o teu programa e marca uma aula experimental grátis.</p>
+                <div class="hero-cta hero-in" style="--d:.24s">
+                    <a href="#marcacoes" class="btn btn-primario btn-grande btn-corte">Marcar Aula Experimental</a>
+                    <a href="#catalogo" class="btn btn-secundario btn-grande btn-corte">Ver Programas</a>
+                </div>
+                <ul class="hero-numeros hero-in" style="--d:.32s">
+                    <li><strong>320</strong><span>atletas</span></li>
+                    <li><strong>14</strong><span>treinadores</span></li>
+                    <li><strong>9</strong><span>escalões</span></li>
+                </ul>
+            </div>
+            <div class="hero-mascote-area">
+                <div class="holofote" aria-hidden="true"></div>
+                <div class="balao" id="balaoMascote" role="status" aria-live="polite"></div>
+                <div id="heroMascote" class="hero-mascote-caixa"></div>
+                <p class="hero-dica">Clica na águia</p>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
-         INDICADOR DE PROGRESSO
-         ============================================ -->
+    <!-- ============ PRÓXIMO JOGO ============ -->
+    <section class="proximo" aria-label="Próximo jogo">
+        <div class="container">
+            <div class="proximo-caixa">
+                <p class="proximo-etiqueta">Próximo jogo</p>
+                <div class="proximo-equipas">
+                    <div class="equipa-lado">
+                        <svg class="brasao" viewBox="0 0 60 70" aria-hidden="true"><path d="M30 3 L56 12 V36 C56 52 44 63 30 68 C16 63 4 52 4 36 V12 Z" fill="#ff6b00" stroke="#0d0d0d" stroke-width="3"/><circle cx="30" cy="34" r="12" fill="#fff" stroke="#0d0d0d" stroke-width="2.5"/><path d="M18 34h24M30 22v24" stroke="#ff6b00" stroke-width="2" fill="none"/></svg>
+                        <strong>Aro Alto</strong><span>Casa</span>
+                    </div>
+                    <div class="proximo-meio">
+                        <span class="vs">VS</span>
+                        <p id="proximoData" class="proximo-data"></p>
+                    </div>
+                    <div class="equipa-lado">
+                        <svg class="brasao" viewBox="0 0 60 70" aria-hidden="true"><path d="M30 3 L56 12 V36 C56 52 44 63 30 68 C16 63 4 52 4 36 V12 Z" fill="#2b3a67" stroke="#0d0d0d" stroke-width="3"/><path d="M14 30 L30 18 L46 30 L30 52 Z" fill="#fff" stroke="#0d0d0d" stroke-width="2.5"/></svg>
+                        <strong>Falcões do Norte</strong><span>Fora</span>
+                    </div>
+                </div>
+                <div class="contagem" id="contagemJogo" aria-label="Contagem decrescente para o próximo jogo"></div>
+                <a href="#epoca" class="btn btn-escuro btn-corte">Ver calendário</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FAIXA QUE CORRE ============ -->
+    <div class="marquee" aria-hidden="true"><div class="marquee-pista" id="marqueePista"></div></div>
+
+    <!-- ============ INDICADOR DE PROGRESSO ============ -->
     <nav class="stepper" id="stepper" aria-label="Progresso da inscrição">
         <div class="container stepper-content">
-            <a href="#catalogo" class="step" data-step="1">
-                <span class="step-circulo">1</span>
-                <span class="step-label">Programas</span>
-            </a>
+            <a href="#catalogo" class="step" data-step="1"><span class="step-circulo">1</span><span class="step-label">Programas</span></a>
             <span class="step-linha" data-linha="1"></span>
-            <a href="#orcamento" class="step" data-step="2">
-                <span class="step-circulo">2</span>
-                <span class="step-label">Mensalidade</span>
-            </a>
+            <a href="#orcamento" class="step" data-step="2"><span class="step-circulo">2</span><span class="step-label">Mensalidade</span></a>
             <span class="step-linha" data-linha="2"></span>
-            <a href="#marcacoes" class="step" data-step="3">
-                <span class="step-circulo">3</span>
-                <span class="step-label">Aula Experimental</span>
-            </a>
+            <a href="#marcacoes" class="step" data-step="3"><span class="step-circulo">3</span><span class="step-label">Aula Experimental</span></a>
             <span class="step-linha" data-linha="3"></span>
-            <a href="#contacto" class="step" data-step="4">
-                <span class="step-circulo">4</span>
-                <span class="step-label">Inscrever</span>
-            </a>
+            <a href="#contacto" class="step" data-step="4"><span class="step-circulo">4</span><span class="step-label">Inscrever</span></a>
         </div>
     </nav>
 
-    <!-- ============================================
-         CATÁLOGO DE PROGRAMAS
-         ============================================ -->
+    <!-- ============ CATÁLOGO ============ -->
     <section id="catalogo" class="catalogo">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 1</p>
             <h2 class="titulo-centro">Escolhe o teu programa</h2>
-
-            <div class="filtros" id="filtrosCategoria">
-                <!-- Gerado pelo JavaScript -->
-            </div>
-
-            <div class="catalogo-grid" id="catalogoGrid">
-                <!-- Gerado pelo JavaScript -->
-            </div>
+            <div class="filtros" id="filtrosCategoria"></div>
+            <div class="catalogo-grid" id="catalogoGrid"></div>
         </div>
     </section>
 
-    <!-- ============================================
-         ORÇAMENTO (SIMULADOR DE MENSALIDADE)
-         ============================================ -->
+    <!-- ============ PLACARD (SIMULADOR) ============ -->
     <section id="orcamento" class="orcamento">
         <div class="container orcamento-content">
             <div class="orcamento-texto">
-                <p class="etiqueta">Passo 2</p>
+                <p class="etiqueta etiqueta-clara">Passo 2</p>
                 <h2>Simula a tua mensalidade</h2>
-                <p>Os programas escolhidos no catálogo aparecem aqui, com o valor mensal total atualizado automaticamente.</p>
+                <p>Os programas escolhidos aparecem no placard, com o valor mensal total atualizado na hora.</p>
             </div>
-
-            <div class="orcamento-caixa">
-                <h3>Resumo da inscrição</h3>
+            <div class="orcamento-caixa placard">
+                <div class="placard-topo"><span>Placard</span><span class="placard-luz"></span></div>
                 <ul id="listaOrcamento" class="orcamento-lista">
                     <li class="orcamento-vazio" id="orcamentoVazio">Ainda não escolheste nenhum programa.</li>
                 </ul>
@@ -144,111 +158,135 @@
                     <span>Mensalidade estimada</span>
                     <span id="orcamentoTotal">0 €</span>
                 </div>
-                <a href="#marcacoes" class="btn btn-primario btn-full">Marcar Aula Experimental →</a>
-                <p class="orcamento-aviso">Valor estimado — pode variar após confirmação com a academia.</p>
+                <a href="#marcacoes" class="btn btn-primario btn-full btn-corte">Marcar Aula Experimental</a>
+                <p class="orcamento-aviso">Valor estimado. Pode variar após confirmação com a academia.</p>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
-         MARCAÇÕES
-         ============================================ -->
+    <!-- ============ ÉPOCA: RESULTADOS E CLASSIFICAÇÃO ============ -->
+    <section id="epoca" class="epoca">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro">Época 2026/27</p>
+            <h2 class="titulo-centro">Resultados e classificação</h2>
+            <div class="epoca-grid">
+                <div class="painel">
+                    <h3 class="painel-titulo">Últimos jogos</h3>
+                    <ul class="jogos" id="listaJogos"></ul>
+                </div>
+                <div class="painel">
+                    <h3 class="painel-titulo">Classificação Sub-16</h3>
+                    <div class="tabela-rolar"><table class="tabela" id="tabelaClassificacao"></table></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ EQUIPA TÉCNICA ============ -->
+    <section id="equipa" class="equipa">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro etiqueta-clara">Quem te treina</p>
+            <h2 class="titulo-centro">A equipa técnica</h2>
+            <div class="equipa-grid" id="equipaGrid"></div>
+        </div>
+    </section>
+
+    <!-- ============ MARCAÇÕES ============ -->
     <section id="marcacoes" class="marcacoes">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 3</p>
             <h2 class="titulo-centro">Marca a tua aula experimental grátis</h2>
-
             <div class="marcacoes-caixa">
                 <label for="dataMarcacao">Data pretendida</label>
                 <input type="date" id="dataMarcacao">
-
                 <div id="blocoHorarios" class="bloco-horarios" hidden>
                     <p class="horarios-label">Horários de treino disponíveis</p>
-                    <div class="horarios-grid" id="horariosGrid">
-                        <!-- Gerado pelo JavaScript -->
-                    </div>
+                    <div class="horarios-grid" id="horariosGrid"></div>
                 </div>
-
                 <p class="marcacao-resumo" id="marcacaoResumo"></p>
             </div>
         </div>
     </section>
 
-    <!-- ============================================
-         CONTACTO / INSCRIÇÃO
-         ============================================ -->
+    <!-- ============ NOTÍCIAS ============ -->
+    <section id="noticias" class="noticias">
+        <div class="container">
+            <p class="etiqueta etiqueta-centro">Novidades</p>
+            <h2 class="titulo-centro">Notícias do clube</h2>
+            <div class="noticias-grid" id="noticiasGrid"></div>
+        </div>
+    </section>
+
+    <!-- ============ PARCEIROS ============ -->
+    <section class="parceiros" id="parceiros" aria-label="Parceiros">
+        <div class="container">
+            <p class="parceiros-titulo">Quem nos acompanha</p>
+            <ul class="parceiros-lista" id="parceirosLista"></ul>
+        </div>
+    </section>
+
+    <!-- ============ CONTACTO / INSCRIÇÃO ============ -->
     <section id="contacto" class="contacto">
         <div class="container">
             <p class="etiqueta etiqueta-centro">Passo 4</p>
             <h2 class="titulo-centro">Finaliza a tua inscrição</h2>
-            <p class="contacto-subtitulo">Confirma os teus dados — o pedido inclui automaticamente os programas e o horário escolhidos acima.</p>
-
+            <p class="contacto-subtitulo">Confirma os teus dados. O pedido inclui automaticamente os programas e o horário escolhidos acima.</p>
             <form class="contacto-form" id="formContacto">
-                <!-- TROCA "XXXXXXXX" pelo teu ID do Formspree (grátis em formspree.io) -->
-
                 <div class="form-grid">
-                    <div>
-                        <label for="nome">Nome do atleta</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
-                    <div>
-                        <label for="email">Email do encarregado de educação</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
+                    <div><label for="nome">Nome do atleta</label><input type="text" id="nome" name="nome" required></div>
+                    <div><label for="email">Email do encarregado de educação</label><input type="email" id="email" name="email" required></div>
                 </div>
-                <div>
-                    <label for="telefone">Telefone (opcional)</label>
-                    <input type="tel" id="telefone" name="telefone">
-                </div>
-                <div>
-                    <label for="mensagem">Mensagem adicional (opcional)</label>
-                    <textarea id="mensagem" name="mensagem" rows="3"></textarea>
-                </div>
-
+                <div><label for="telefone">Telefone (opcional)</label><input type="tel" id="telefone" name="telefone"></div>
+                <div><label for="mensagem">Mensagem adicional (opcional)</label><textarea id="mensagem" name="mensagem" rows="3"></textarea></div>
                 <div class="resumo-final" id="resumoFinal">
                     <p><strong>Resumo da inscrição</strong></p>
                     <p id="resumoServicos">Nenhum programa selecionado ainda.</p>
                     <p id="resumoHorario">Nenhum horário selecionado ainda.</p>
                 </div>
-
-                <button type="submit" class="btn btn-primario btn-grande" id="btnEnviar">Enviar Inscrição</button>
+                <button type="submit" class="btn btn-primario btn-grande btn-corte" id="btnEnviar">Enviar Inscrição</button>
                 <p class="form-nota" id="formNota"></p>
-
                 <div class="confirmacao-envio" id="confirmacaoEnvio" hidden>
                     <p class="confirmacao-titulo">A tua inscrição está pronta a enviar</p>
                     <p class="confirmacao-texto">O teu email não abriu automaticamente (é normal se não tiveres um cliente de email predefinido neste computador). Escolhe uma opção:</p>
                     <div class="confirmacao-acoes">
-                        <a href="#" id="linkAbrirEmail" class="btn btn-primario">Abrir no meu email</a>
-                        <button type="button" id="btnCopiarMensagem" class="btn btn-secundario-claro">Copiar mensagem</button>
+                        <a href="#" id="linkAbrirEmail" class="btn btn-primario btn-corte">Abrir no meu email</a>
+                        <button type="button" id="btnCopiarMensagem" class="btn btn-secundario-claro btn-corte">Copiar mensagem</button>
                     </div>
                     <textarea id="textoMensagem" class="confirmacao-texto-area" readonly rows="6"></textarea>
                 </div>
             </form>
         </div>
     </section>
+    </main>
 
-    <!-- ============================================
-         RODAPÉ
-         ============================================ -->
+    <!-- ============ RODAPÉ ============ -->
     <footer class="rodape">
-        <div class="container rodape-content">
-            <p>&copy; <span id="anoAtual"></span> Aro Alto — Academia de Basquetebol. Todos os direitos reservados.</p>
-            <div class="rodape-social">
-                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.87v-6.98H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.98A10 10 0 0 0 22 12z"/></svg></a>
-                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
-                <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+        <div class="container rodape-grid">
+            <div>
+                <a href="#topo" class="logo"><svg class="logo-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg><span>ARO ALTO</span></a>
+                <p class="rodape-texto">Academia de basquetebol para todas as idades. Treino a sério, ambiente de equipa.</p>
+            </div>
+            <div><h4>Clube</h4><a href="#epoca">Época</a><a href="#equipa">Equipa técnica</a><a href="#noticias">Notícias</a><a href="#parceiros">Parceiros</a></div>
+            <div><h4>Inscrição</h4><a href="#marcacoes">Marcar aula grátis</a><a href="#contacto">Inscrever</a></div>
+            <div><h4>Contacto</h4><p>Pavilhão Municipal<br>Rua do Desporto, 23<br>geral@aroalto.pt</p>
+                <div class="rodape-social">
+                    <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.87v-6.98H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.98A10 10 0 0 0 22 12z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6z"/></svg></a>
+                </div>
             </div>
         </div>
+        <div class="container rodape-fim"><p>&copy; <span id="anoAtual"></span> Aro Alto, Academia de Basquetebol. Todos os direitos reservados. Dados de exemplo.</p></div>
     </footer>
 
-    <!-- ============================================
-         RESUMO FLUTUANTE (mostra logo que há seleção)
-         ============================================ -->
+    <!-- ============ RESUMO FLUTUANTE ============ -->
     <button type="button" id="resumoFlutuante" class="resumo-flutuante" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2v20M4.5 4.5c3 3 3 12 0 15M19.5 4.5c-3 3-3 12 0 15"/></svg>
         <span id="resumoFlutuanteTexto">0 programas · 0 €</span>
     </button>
 
+    <script src="mascote.js"></script>
+    <script src="abertura.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

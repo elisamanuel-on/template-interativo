@@ -1,5 +1,5 @@
 // ============================================
-// TEMPLATE "INTERATIVO" — Academia de Basquetebol
+// TEMPLATE "INTERATIVO" Academia de Basquetebol
 // ============================================
 // Catálogo de programas, simulador de mensalidade em tempo
 // real, marcação de aula experimental, e um formulário final
@@ -515,3 +515,203 @@ renderResumoFinal();
 renderResumoFlutuante();
 atualizarStepper();
 ativarRevelacao(document.querySelectorAll('.orcamento-caixa, .marcacoes-caixa, .contacto-form'));
+
+
+// ============================================
+// NOVO: dados do clube (todos de exemplo, edita à vontade)
+// ============================================
+const CLUBE = {
+    resultados: [
+        { data: '28 Set', adv: 'Leões da Foz',     casa: true,  pts: [68, 61] },
+        { data: '21 Set', adv: 'Tigres do Vale',   casa: false, pts: [57, 63] },
+        { data: '14 Set', adv: 'Lobos de Gaia',    casa: true,  pts: [74, 52] },
+        { data: '07 Set', adv: 'Falcões do Norte', casa: false, pts: [49, 71] }
+    ],
+    classificacao: [
+        { eq: 'Aro Alto',         j: 8, v: 7, d: 1 },
+        { eq: 'Falcões do Norte', j: 8, v: 6, d: 2 },
+        { eq: 'Leões da Foz',     j: 8, v: 4, d: 4 },
+        { eq: 'Tigres do Vale',   j: 8, v: 3, d: 5 },
+        { eq: 'Lobos de Gaia',    j: 8, v: 2, d: 6 },
+        { eq: 'Corvos do Cávado', j: 8, v: 1, d: 7 }
+    ],
+    equipa: [
+        { nome: 'Marco Silva',  funcao: 'Treinador principal', num: 5,  cor: '#ff6b00' },
+        { nome: 'Sofia Duarte', funcao: 'Formação jovem',      num: 11, cor: '#ffb100' },
+        { nome: 'Rui Anjos',    funcao: 'Preparação física',   num: 23, cor: '#ff6b00' },
+        { nome: 'Inês Costa',   funcao: 'Treino individual',   num: 7,  cor: '#ffb100' }
+    ],
+    noticias: [
+        { tag: 'Clube',       data: '02 Out', titulo: 'Abertas as inscrições para a nova época',           texto: 'Há vagas em todos os escalões. A aula experimental continua grátis para novos atletas.' },
+        { tag: 'Competição',  data: '28 Set', titulo: 'Sub-16 vencem em casa e lideram o campeonato',      texto: 'Uma segunda parte de grande intensidade garantiu a sétima vitória da época.' },
+        { tag: 'Comunidade',  data: '19 Set', titulo: 'Torneio de mini-basket junta 12 equipas no pavilhão', texto: 'Um sábado de jogos, convívio e muitos sorrisos para os mais novos.' }
+    ],
+    parceiros: ['Pavilhão Norte', 'Sportiva', 'Clínica Movimento', 'Café Central', 'Gráfica Alvo'],
+    faixa: ['BASQUETEBOL', 'FORMAÇÃO', 'COMPETIÇÃO', 'COMUNIDADE', 'AULA GRÁTIS', 'ESPÍRITO DE EQUIPA'],
+    proximoJogo: { diaSemana: 6, hora: 18 }, // sábado às 18:00 (0 = domingo)
+    // Vagas por escalão (o anúncio do topo usa estes números; "cat" tem de coincidir com a categoria do catálogo)
+    vagas: [
+        { nome: 'Mini-Basket (6-9 anos)', cat: 'Formação Jovem', total: 30, livres: 12 },
+        { nome: 'Sub-12 (10-12 anos)',    cat: 'Formação Jovem', total: 30, livres: 7 },
+        { nome: 'Sub-16 (13-16 anos)',    cat: 'Formação Jovem', total: 30, livres: 4 },
+        { nome: 'Sénior / Adultos',       cat: 'Adultos',        total: 24, livres: 10 },
+        { nome: 'Treino 1-a-1',           cat: 'Individual',     total: 10, livres: 3 }
+    ]
+};
+
+function proximaData() {
+    const agora = new Date();
+    const d = new Date(agora);
+    d.setHours(CLUBE.proximoJogo.hora, 0, 0, 0);
+    let falta = (CLUBE.proximoJogo.diaSemana - d.getDay() + 7) % 7;
+    if (falta === 0 && d <= agora) falta = 7;
+    d.setDate(d.getDate() + falta);
+    return d;
+}
+
+function renderClube() {
+    // faixa que corre
+    const palavras = CLUBE.faixa.map(p => `<span>${p}</span>`).join('');
+    document.getElementById('marqueePista').innerHTML = palavras + palavras + palavras + palavras;
+
+    // resultados
+    document.getElementById('listaJogos').innerHTML = CLUBE.resultados.map(j => {
+        const ganhou = j.pts[0] > j.pts[1];
+        const [a, b] = j.casa ? [j.pts[0], j.pts[1]] : [j.pts[0], j.pts[1]];
+        return `<li class="jogo ${ganhou ? 'vitoria' : 'derrota'}">
+            <span class="jogo-data">${j.data}</span>
+            <span class="jogo-eq"><strong>Aro Alto</strong> <em>${j.casa ? 'vs' : 'em'}</em> ${j.adv}</span>
+            <span class="jogo-res">${a} - ${b}</span>
+            <span class="jogo-tag">${ganhou ? 'V' : 'D'}</span></li>`;
+    }).join('');
+
+    // classificação
+    const linhas = CLUBE.classificacao.map(e => ({ ...e, pts: e.v * 2 + e.d })).sort((x, y) => y.pts - x.pts);
+    document.getElementById('tabelaClassificacao').innerHTML =
+        `<thead><tr><th>#</th><th>Equipa</th><th>J</th><th>V</th><th>D</th><th>Pts</th></tr></thead><tbody>` +
+        linhas.map((e, i) => `<tr class="${e.eq === 'Aro Alto' ? 'nos' : ''}"><td>${i + 1}</td><td>${e.eq}</td><td>${e.j}</td><td>${e.v}</td><td>${e.d}</td><td><strong>${e.pts}</strong></td></tr>`).join('') + `</tbody>`;
+
+    // equipa técnica
+    document.getElementById('equipaGrid').innerHTML = CLUBE.equipa.map(p => `
+        <article class="treinador">
+            <div class="treinador-foto" style="--c:${p.cor}">
+                <span class="treinador-num">${p.num}</span>
+                <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="44" r="22" fill="#2a2a2a"/><path d="M14 120 C 14 84, 36 72, 60 72 C 84 72, 106 84, 106 120 Z" fill="#2a2a2a"/><path d="M40 78 L60 96 L80 78" fill="none" stroke="${p.cor}" stroke-width="5"/></svg>
+            </div>
+            <h3>${p.nome}</h3><p>${p.funcao}</p>
+        </article>`).join('');
+
+    // notícias
+    document.getElementById('noticiasGrid').innerHTML = CLUBE.noticias.map((n, i) => `
+        <article class="noticia">
+            <div class="noticia-img n${i}"><svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><circle cx="${120 + i * 70}" cy="110" r="${70 - i * 8}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="3"/><line x1="0" y1="110" x2="400" y2="110" stroke="rgba(255,255,255,.4)" stroke-width="3"/><circle cx="${300 - i * 40}" cy="${70 + i * 30}" r="26" fill="rgba(255,255,255,.9)"/><path d="M${274 - i * 40} ${70 + i * 30}h52M${300 - i * 40} ${44 + i * 30}v52" stroke="#ff6b00" stroke-width="3"/></svg><span class="noticia-tag">${n.tag}</span></div>
+            <div class="noticia-corpo"><p class="noticia-data">${n.data}</p><h3>${n.titulo}</h3><p>${n.texto}</p></div>
+        </article>`).join('');
+
+    // parceiros
+    document.getElementById('parceirosLista').innerHTML = CLUBE.parceiros.map(p => `<li>${p}</li>`).join('');
+}
+
+// Próximo jogo: contagem decrescente
+function iniciarContagem() {
+    const alvo = proximaData();
+    const dias = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+    document.getElementById('proximoData').textContent =
+        `${dias[alvo.getDay()]}, ${String(alvo.getDate()).padStart(2, '0')}/${String(alvo.getMonth() + 1).padStart(2, '0')} · ${String(alvo.getHours()).padStart(2, '0')}:00 · Pavilhão Municipal`;
+    const el = document.getElementById('contagemJogo');
+    const p2 = n => String(n).padStart(2, '0');
+    const tick = () => {
+        let s = Math.max(0, Math.floor((alvo - Date.now()) / 1000));
+        const d = Math.floor(s / 86400); s %= 86400; const h = Math.floor(s / 3600); s %= 3600; const m = Math.floor(s / 60); s %= 60;
+        el.innerHTML = `<div><b>${p2(d)}</b><span>dias</span></div><div><b>${p2(h)}</b><span>horas</span></div><div><b>${p2(m)}</b><span>min</span></div><div><b>${p2(s)}</b><span>seg</span></div>`;
+    };
+    tick(); setInterval(tick, 1000);
+}
+
+// ------------------------------------------------
+// Anúncio "Inscrições abertas": mensagens que rodam + painel de vagas
+// ------------------------------------------------
+(function iniciarAnuncio() {
+    const totalLivres = CLUBE.vagas.reduce((n, v) => n + v.livres, 0);
+    const maisCheio = [...CLUBE.vagas].sort((a, b) => a.livres - b.livres)[0];
+    const msgs = [
+        { html: `Nova época 2026/27 <strong>vagas limitadas</strong>`, alvo: '#painel' },
+        { html: `Aula experimental <strong>grátis</strong> em qualquer escalão`, alvo: '#marcacoes' },
+        { html: `Restam <strong>${totalLivres} vagas</strong> no total`, alvo: '#painel' },
+        { html: `Últimas <strong>${maisCheio.livres} vagas</strong> no ${maisCheio.nome.split(' (')[0]}`, alvo: '#painel' }
+    ];
+    const caixa = document.getElementById('anuncioMsgs');
+    const painel = document.getElementById('anuncioPainel');
+    const btn = document.getElementById('anuncioBtn');
+    const btnTxt = document.getElementById('anuncioBtnTxt');
+    caixa.innerHTML = msgs.map((m, i) => `<a class="anuncio-msg ${i === 0 ? 'ativa' : ''}" href="${m.alvo === '#painel' ? '#' : m.alvo}" data-alvo="${m.alvo}">${m.html}</a>`).join('');
+    const els = [...caixa.children];
+    let atual = 0, pausado = false;
+    setInterval(() => {
+        if (pausado || document.hidden) return;
+        els[atual].classList.remove('ativa'); els[atual].classList.add('saiu');
+        const ant = els[atual];
+        setTimeout(() => ant.classList.remove('saiu'), 520);
+        atual = (atual + 1) % els.length;
+        els[atual].classList.add('ativa');
+    }, 3800);
+    caixa.addEventListener('pointerenter', () => { pausado = true; });
+    caixa.addEventListener('pointerleave', () => { pausado = false; });
+
+    // painel de vagas
+    document.getElementById('listaVagas').innerHTML = CLUBE.vagas.map((v, i) => {
+        const ocupado = Math.round((v.total - v.livres) / v.total * 100);
+        const poucas = v.livres <= 5;
+        return `<li><button type="button" class="vaga ${poucas ? 'poucas' : ''}" data-i="${i}">
+            <strong>${v.nome}</strong><em>${poucas ? 'Últimas ' : 'Restam '}${v.livres} vagas</em>
+            <span class="vaga-barra"><i data-w="${ocupado}"></i></span></button></li>`;
+    }).join('');
+    function alternar(abrir) {
+        const aberto = abrir ?? painel.hidden;
+        painel.hidden = !aberto;
+        btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+        btnTxt.textContent = aberto ? 'Fechar' : 'Ver vagas';
+        if (aberto) requestAnimationFrame(() => requestAnimationFrame(() => painel.querySelectorAll('.vaga-barra i').forEach(b => { b.style.width = b.dataset.w + '%'; })));
+        else painel.querySelectorAll('.vaga-barra i').forEach(b => { b.style.width = '0'; });
+    }
+    btn.addEventListener('click', () => alternar());
+    caixa.addEventListener('click', e => {
+        const a = e.target.closest('.anuncio-msg'); if (!a) return;
+        if (a.dataset.alvo === '#painel') { e.preventDefault(); alternar(true); }
+        else alternar(false);
+    });
+    document.getElementById('anuncioMarcar').addEventListener('click', () => alternar(false));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !painel.hidden) { alternar(false); btn.focus(); } });
+    // clicar numa vaga: abre o catálogo já filtrado nesse escalão
+    painel.addEventListener('click', e => {
+        const b = e.target.closest('.vaga'); if (!b) return;
+        estado.categoriaAtiva = CLUBE.vagas[Number(b.dataset.i)].cat;
+        renderFiltros(); renderCatalogo();
+        alternar(false);
+        document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+    });
+})();
+
+// Cabeçalho muda ao fazer scroll
+const cabecalho = document.getElementById('cabecalho');
+function marcarScroll() { cabecalho.classList.toggle('solido', scrollY > 40); }
+addEventListener('scroll', marcarScroll, { passive: true }); marcarScroll();
+
+// Mascote do hero
+const heroMascote = document.getElementById('heroMascote');
+heroMascote.innerHTML = mascoteSVG({ classe: 'hero-m' });
+ativarMascote(heroMascote.querySelector('svg'), { balao: document.getElementById('balaoMascote'), area: document });
+
+renderClube();
+iniciarContagem();
+ativarRevelacao(document.querySelectorAll('.painel, .treinador, .noticia, .parceiros-lista li, .proximo-caixa'));
+
+// O resumo flutuante esconde-se quando já estás a ver o placard ou o formulário (evita repetir a informação)
+(function () {
+    const visiveis = new Set();
+    const obs = new IntersectionObserver(es => {
+        es.forEach(e => e.isIntersecting ? visiveis.add(e.target.id) : visiveis.delete(e.target.id));
+        document.body.classList.toggle('sem-flut', visiveis.size > 0);
+    }, { threshold: 0.25 });
+    ['orcamento', 'contacto'].forEach(id => obs.observe(document.getElementById(id)));
+})();
